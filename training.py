@@ -6,13 +6,16 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, roc_auc_score
-from utils import load_data, split_data, train_model, evaluate_model, save_model
+from utils import download_data, load_data, split_data, train_model, evaluate_model, save_model
 
 
 def training_flow(data_path, model_path):
     print("Starting the training process...")
     
     try:
+        # Download data from OCI Object Storage
+        download_data()
+        print("Data downloaded successfully.")
         
         # Load data
         X, y = load_data(data_path)
@@ -39,7 +42,7 @@ def training_flow(data_path, model_path):
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Train a logistic regression model.")
-    parser.add_argument("--data_path", type=str, default="data.csv", help="Path to the input data CSV file.")
+    parser.add_argument("--data_path", type=str, default="dataset.csv", help="Path to the input data CSV file.")
     parser.add_argument("--model_path", type=str, default="./", help="Directory to save the trained model.")
     args = parser.parse_args()
   
